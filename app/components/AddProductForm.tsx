@@ -1,30 +1,49 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const AddProductForm: React.FC = () => {
+interface Product {
+  id: number;
+  productName: string;
+  image: string;
+  price: number;
+  quantity: number;
+}
+
+interface AddProductFormProps {
+  products: Product[];
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+}
+
+const AddProductForm: React.FC<AddProductFormProps> = ({ products, setProducts }) => {
   const [productName, setProductName] = useState('');
   const [image, setImage] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [id, setId] = useState<number>(4); 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/api/products', {
-        id,
+      const randomId = Math.floor(Math.random() * 1000000);
+
+      const newProduct: Product = {
+        id: randomId,
         productName,
         image,
         price: Number(price),
         quantity: Number(quantity),
-      });
-      // console.log(response.data);
+      };
+
+      await axios.post('http://localhost:3000/api/products', newProduct);
+
+      // Cập nhật state products trong Page component
+      setProducts([...products, newProduct]);
+
+      // Reset form
       setProductName('');
       setImage('');
       setPrice('');
       setQuantity('');
-      setId((prevId) => prevId + 1); // Increment ID for next product
     } catch (error) {
       console.error('Error adding product:', error);
     }
@@ -47,7 +66,7 @@ const AddProductForm: React.FC = () => {
             required
           />
         </div>
-        
+
         <div>
           <label htmlFor="image" className="block text-sm font-medium text-gray-700">
             Hình Ảnh (URL)
