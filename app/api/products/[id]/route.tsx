@@ -23,21 +23,27 @@ export async function GET(request: NextRequest, { params }: { params: { id: numb
     }
 
 }
-export async function PUT(request: NextRequest, paramrs: { params: { id: string}}){
-    const filePath = path.join(process.cwd(), "database", "products.json");
-    const products = JSON.parse(fs.readFileSync(filePath,"utf8"));
-    const findIndex = products.findIndex((product:any)=> product.id == +paramrs.params.id);
-    if (findIndex !==-1){
-        products[findIndex].productName="abcd"
-        products[findIndex].image="https://cdn.pixabay.com/photo/2023/08/25/10/33/apples-8212695_1280.jpg"
-        products[findIndex].price=20
-        products[findIndex].quantity=20
+export async function PUT(request: NextRequest, { params }: { params: { id: number } }) {
+    try {
+      const filePath = path.join(process.cwd(), 'database', 'products.json');
+      const products: Product[] = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      const updatedProduct = await request.json();
+      const findIndex = products.findIndex(product => product.id === +params.id);
+      if (findIndex !== -1) {
+        products[findIndex] = { ...products[findIndex], ...updatedProduct };
+        
+        // Ghi lại vào file
+        fs.writeFileSync(filePath, JSON.stringify(products, null, 2), 'utf8');
+        return NextResponse.json("Cập nhật sản phẩm thành công");
+      } else {
+        return NextResponse.json("Không tìm thấy sản phẩm", { status: 404 });
+      }
+    } catch (error) {
+      return NextResponse.json("Đã xảy ra lỗi khi cập nhật sản phẩm", { status: 500 });
     }
-    fs.writeFileSync(filePath, JSON.stringify(products), "utf8");
-    return NextResponse.json("thay doi san pham thanh cong")
-}
+  }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string }}) {
+export async function DELETE(request: NextRequest, { params }: { params: { id: number }}) {
     const filePath = path.join(process.cwd(), 'database', 'products.json');
     const products = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     const findIndex = products.findIndex((product: any) => product.id === +params.id);

@@ -1,8 +1,9 @@
 'use client'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import ConfirmationModal from '../components/Delete';
 import AddProductForm from '../components/AddProductForm';
+import UpdateProductModal from '../components/UpdateProductModal';
 
 interface Product {
   id: number;
@@ -14,22 +15,23 @@ interface Product {
 
 export default function Page() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState<number | null>(null);
-
+  const [productToEdit, setProductToEdit] = useState<Product | null>(null);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   useEffect(() => {
     axios.get('http://localhost:3000/api/products')
       .then((response) => {
         setProducts(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error( error);
       });
   }, []);
 
   const handleDeleteClick = (productId: number) => {
     setProductToDelete(productId);
-    setShowModal(true);
+    setShowDeleteModal(true);
   };
 
   const handleConfirmDelete = () => {
@@ -40,17 +42,24 @@ export default function Page() {
           setProductToDelete(null);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         })
         .finally(() => {
-          setShowModal(false);
+          setShowDeleteModal(false);
         });
     }
   };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
     setProductToDelete(null);
+  };
+  const handleEditClick = (product: Product) => {
+    setProductToEdit(product);
+    setIsUpdateModalOpen(true);
+  };
+  const handleUpdateProduct = (updatedProduct: Product) => {
+    setProducts(products.map(product => product.id === updatedProduct.id ? updatedProduct : product));
+    setIsUpdateModalOpen(false);
   };
 
   return (
@@ -79,7 +88,12 @@ export default function Page() {
                 <td className="py-3 px-6 text-left">{item.price}.000 VNĐ</td>
                 <td className="py-3 px-6 text-left">{item.quantity}</td>
                 <td className="py-3 px-6 text-left">
-                  <button className="text-blue-500 hover:underline mr-2">Sửa</button>
+                  <button
+                    onClick={() => handleEditClick(item)}
+                    className="text-blue-500 hover:underline mr-2"
+                  >
+                    Sửa
+                  </button>
                   <button
                     onClick={() => handleDeleteClick(item.id)}
                     className="text-red-500 hover:underline"
@@ -92,17 +106,27 @@ export default function Page() {
           </tbody>
         </table>
 
+        {/* Delete Confirmation Modal */}
         <ConfirmationModal
-          isOpen={showModal}
-          onClose={handleCloseModal}
+          isOpen={showDeleteModal}
+          onClose={handleCloseDeleteModal}
           onConfirm={handleConfirmDelete}
           message="Bạn có chắc chắn muốn xóa sản phẩm này không?"
         />
       </div>
+
       <div className="bg-gray-100 items-center">
         <br />
         <AddProductForm products={products} setProducts={setProducts} />
       </div>
+
+      {/* Update Product Modal */}
+      <UpdateProductModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        product={productToEdit}
+        onUpdate={handleUpdateProduct}
+      />
     </>
   );
 }

@@ -1,10 +1,10 @@
 [
   {
     "id": 1,
-    "productName": "Cam",
-    "image": "https://suckhoedoisong.qltns.mediacdn.vn/Images/thanhloan/2016/06/05/tac-dung-cua-qua-cam-2.jpg",
-    "price": 12,
-    "quantity": 12
+    "productName": "Quít",
+    "image": "https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2023/1/5/quyt1-16729268406061818972489.jpg",
+    "price": 300,
+    "quantity": 23
   },
   {
     "id": 2,
@@ -14,17 +14,31 @@
     "quantity": 20
   },
   {
-    "id": 3,
-    "productName": "Nho",
-    "image": "https://static-images.vnncdn.net/files/publish/2023/10/13/nho-sua-1368.jpg",
-    "price": 25,
-    "quantity": 8
-  },
-  {
     "id": 159422,
     "productName": "Đào ",
     "image": "https://imagev3.dantocmiennui.vn/w1000/Uploaddtmn/2017/7/6/idaho-peaches_52258301-1.jpg",
     "price": 86,
     "quantity": 6
+  },
+  {
+    "id": 570737,
+    "productName": "Chuối",
+    "image": "https://namnguyenduoc.com/wp-content/uploads/2023/03/Chuoi.jpg",
+    "price": 14,
+    "quantity": 3
+  },
+  {
+    "id": 378625,
+    "productName": "Cherry",
+    "image": "https://cdn.tgdd.vn/Files/2020/08/14/1279868/trong-qua-cherry-co-1-bo-phan-cuc-doc-khi-an-phai-can-than-luoc-bo-neu-khong-co-the-gay-ngo-doc-202008141325555023.jpg",
+    "price": 100,
+    "quantity": 7
+  },
+  {
+    "id": 778000,
+    "productName": "Chôm Chôm",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXwlP5kXJHJKlqJ7Xy29l7Hj2Xkl6yaYHJOQ&s",
+    "price": 500,
+    "quantity": 10
   }
 ]
