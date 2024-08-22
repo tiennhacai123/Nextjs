@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "productName": "Cam",
+    "image": "https://suckhoedoisong.qltns.mediacdn.vn/Images/thanhloan/2016/06/05/tac-dung-cua-qua-cam-2.jpg",
+    "price": 12,
+    "quantity": 12
+  },
+  {
+    "id": 2,
+    "productName": "Táo",
+    "image": "https://cdn.pixabay.com/photo/2023/08/25/10/33/apples-8212695_1280.jpg",
+    "price": 15,
+    "quantity": 20
+  },
+  {
+    "id": 3,
+    "productName": "Nho",
+    "image": "https://static-images.vnncdn.net/files/publish/2023/10/13/nho-sua-1368.jpg",
+    "price": 25,
+    "quantity": 8
+  }
+]
